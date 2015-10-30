@@ -1,0 +1,15 @@
+{namespace ce=PatrickBroens\ContentRenderingCore\ViewHelpers}
+
+<ce:menu.list pageUids="{pageUids}" as="pages">
+	<f:if condition="{pages}">
+		<ul class="ce-menu ce-menu-0">
+			<f:for each="{pages}" as="page">
+				<li>
+					<f:link.page pageUid="{page.uid}">
+						{page.title}
+					</f:link.page>
+				</li>
+			</f:for>
+		</ul>
+	</f:if>
+</ce:menu.list>

@@ -1,0 +1,16 @@
+{namespace ce=PatrickBroens\ContentRenderingCore\ViewHelpers}
+
+<ce:menu.list entryLevel="0" as="pages" levelAs="level">
+	<f:if condition="{pages}">
+		<ul class="ce-menu ce-menu-2">
+			<f:for each="{pages}" as="page">
+				<li>
+					<f:link.page pageUid="{page.uid}">
+						{page.title}
+					</f:link.page>
+					<f:render partial="Menu/Directory" arguments="{pageUids: {0: page.uid}}" />
+				</li>
+			</f:for>
+		</ul>
+	</f:if>
+</ce:menu.list>

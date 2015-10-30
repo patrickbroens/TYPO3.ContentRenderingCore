@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns:t3="http://typo3.org/schemas/xliff">
+	<file t3:id="1446193034" source-language="en" datatype="plaintext" original="messages" date="2015-10-30T09:18:32Z" product-name="content_rendering_core">
+		<header/>
+		<body>
+			<trans-unit id="content_rendering_core.config.loadContentElementWizardTsConfig">
+				<source>Load Page TSconfig with "New Content Element Wizard" definitions. The definitions can also be loaded manually by including it in a page.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

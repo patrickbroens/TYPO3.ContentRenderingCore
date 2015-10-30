@@ -1,0 +1,7 @@
+<f:if condition="{data.date}">
+	<p>
+		<time datetime="{data.date -> f:format.date(format: '%Y-%m-%d')}">
+			<f:format.date format="%B %e, %Y">{data.date}</f:format.date>
+		</time>
+	</p>
+</f:if>
