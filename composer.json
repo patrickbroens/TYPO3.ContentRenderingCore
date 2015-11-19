@@ -1,7 +1,7 @@
 {
 	"name": "patrickbroens/content-rendering-core",
 	"type": "typo3-cms-extension",
-	"description": "Backport for fluid_styled_content",
+	"description": "Backport of fluid_styled_content",
 	"keywords": [
 		"TYPO3",
 		"fluid",

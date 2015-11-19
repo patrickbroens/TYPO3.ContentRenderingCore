@@ -1,7 +1,7 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Backport for fluid_styled_content',
+    'title' => 'Backport of fluid_styled_content',
     'description' => 'Content rendering by Fluid templates',
     'category' => 'fe',
     'version' => '1.0.0',
