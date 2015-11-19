@@ -8,9 +8,9 @@
 
 .. _start:
 
-========
-Frontend
-========
+================================
+Backport of fluid_styled_content
+================================
 
 :Extension key:
       content_rendering_core
