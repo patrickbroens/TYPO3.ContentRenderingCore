@@ -42,3 +42,10 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'] = 'gif,jpg,jpeg,bmp,png,pdf,
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
     '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_rendering_core/Configuration/PageTSconfig/TCEFORM.ts">'
 );
+
+// Register upgrade wizard to migrate FlexForm data for CE "table" to regular database fields
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['tableCType'] = \PatrickBroens\ContentRenderingCore\Updates\TableFlexFormToTtContentFieldsUpdate::class;
+// Register upgrade wizard to migrate the old Ctypes "text", "image" and "textpic" to "textmedia"
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['textmediaCType'] = \PatrickBroens\ContentRenderingCore\Updates\ContentTypesToTextMediaUpdate::class;
+// Register upgrade wizard to migrate the field "media" to "assets" for the CE "textmedia"
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['textmediaAssets'] = \PatrickBroens\ContentRenderingCore\Updates\MigrateMediaToAssetsForTextMediaCe::class;
