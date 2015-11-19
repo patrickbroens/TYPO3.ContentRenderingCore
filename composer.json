@@ -8,12 +8,11 @@
 		"content",
 		"rendering"
 	],
-	"homepage": "https://github.com/patrickbroens/TYPO3.ContentRenderingCore",
-	"license": ["GPL-2.0+"],
 	"authors": [
 		{
 			"name": "Patrick Broens",
-			"email": "patrick.broens@typo3.org"
+			"email": "patrick.broens@typo3.org",
+			"homepage": "https://github.com/patrickbroens"
 		}
 	],
 	"version": "6.2.0",
@@ -28,5 +27,10 @@
 		"psr-4": {
 			"PatrickBroens\\ContentRenderingCore\\": "Classes/"
 		}
+	},
+	"homepage": "https://github.com/patrickbroens/TYPO3.ContentRenderingCore",
+	"license": "GPL-2.0+",
+	"support": {
+		"issues": "https://github.com/patrickbroens/TYPO3.ContentRenderingCore/issues"
 	}
 }
