@@ -12,20 +12,33 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php'][
 
 // Overload (XCLASS) the FLUIDTEMPLATE content object for use of Data Processors
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\FluidTemplateContentObject'] = array(
-	'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\FluidTemplateContentObject'
+    'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\FluidTemplateContentObject'
 );
 
 // Overload (XCLASS) the FLUID StandaloneView to make use of templateRootPaths
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Fluid\\View\\StandaloneView'] = array(
-	'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\StandaloneView'
+    'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\StandaloneView'
 );
 
 // Overload (XCLASS) the PageRepository to use method getMenuForPages
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Page\\PageRepository'] = array(
-	'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\PageRepository'
+    'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\PageRepository'
 );
 
-if (!isset($extConf['loadContentElementWizardTsConfig']) || (int)$extConf['loadContentElementWizardTsConfig'] === 1) {
-	// Include new content elements to modWizards
-	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_rendering_core/Configuration/PageTSconfig/NewContentElementWizard.ts">');
-}
+// Overload (XCLASS) the PageLayoutView to use method getThumbCodeUnlinked
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\Backend\\View\\PageLayoutView'] = array(
+    'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\PageLayoutView'
+);
+
+// Commalist of file extensions perceived as media files by TYPO3. Lowercase and no spaces between!
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'] = 'gif,jpg,jpeg,bmp,png,pdf,svg,ai,mp3,wav,mp4,webm,youtube,vimeo';
+
+// Include new content elements to mod.wizards
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_rendering_core/Configuration/PageTSconfig/NewContentElementWizard.ts">'
+);
+
+// Exclude non used content elements from core
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    '<INCLUDE_TYPOSCRIPT: source="FILE:EXT:content_rendering_core/Configuration/PageTSconfig/TCEFORM.ts">'
+);

@@ -44,87 +44,91 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * Content element 3 in page with uid = 1 and "Show in section menu's" enabled
  * </output>
  */
-class SectionViewHelper extends AbstractViewHelper {
-	use MenuViewHelperTrait;
+class SectionViewHelper extends AbstractViewHelper
+{
+    use MenuViewHelperTrait;
 
-	/**
-	 * Initialize ViewHelper arguments
-	 *
-	 * @return void
-	 */
-	public function initializeArguments() {
-		$this->registerArgument('as', 'string', 'Name of the template variable that will contain selected pages', true);
-		$this->registerArgument('column', 'integer', 'Column number (colPos) from which to select content', false, 0);
-		$this->registerArgument('pageUid', 'integer', 'UID of page containing section-objects; defaults to current page', false, null);
-		$this->registerArgument('type', 'string', 'Search method when selecting indices from page', false, '');
-	}
+    /**
+     * Initialize ViewHelper arguments
+     *
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('as', 'string', 'Name of the template variable that will contain selected pages', true);
+        $this->registerArgument('column', 'integer', 'Column number (colPos) from which to select content', false, 0);
+        $this->registerArgument('pageUid', 'integer', 'UID of page containing section-objects; defaults to current page', false, null);
+        $this->registerArgument('type', 'string', 'Search method when selecting indices from page', false, '');
+    }
 
-	/**
-	 * Render the view helper
-	 *
-	 * @return string
-	 */
-	public function render() {
-		$as = (string)$this->arguments['as'];
-		$pageUid = (int)$this->arguments['pageUid'];
-		$type = (string)$this->arguments['type'];
+    /**
+     * Render the view helper
+     *
+     * @return string
+     */
+    public function render()
+    {
+        $as = (string)$this->arguments['as'];
+        $pageUid = (int)$this->arguments['pageUid'];
+        $type = (string)$this->arguments['type'];
 
-		if (empty($pageUid)) {
-			$pageUid = $this->getTypoScriptFrontendController()->id;
-		}
+        if (empty($pageUid)) {
+            $pageUid = $this->getTypoScriptFrontendController()->id;
+        }
 
-		if (!empty($type) && !in_array($type, array('all', 'header'), true)) {
-			return '';
-		}
+        if (!empty($type) && !in_array($type, array('all', 'header'), true)) {
+            return '';
+        }
 
-		return $this->renderChildrenWithVariables(array(
-			$as => $this->findBySection($pageUid, $type, (int)$this->arguments['column'])
-		));
-	}
+        return $this->renderChildrenWithVariables(array(
+            $as => $this->findBySection($pageUid, $type, (int)$this->arguments['column'])
+        ));
+    }
 
-	/**
-	 * Find content with 'Show in Section Menus' enabled in a page
-	 *
-	 * By default only content in colPos=0 will be found. This can be overruled by using $column
-	 *
-	 * If you set property type to "all", then the 'Show in Section Menus' checkbox is not considered
-	 * and all content elements are selected.
-	 *
-	 * If the property $type is 'header' then only content elements with a visible header layout
-	 * (and a non-empty 'header' field!) is selected.
-	 * In other words, if the header layout of an element is set to 'Hidden' then the page will not appear in the menu.
-	 *
-	 * @param int $pageUid The page uid
-	 * @param string $type Search method
-	 * @param int $column Restrict content by the column number
-	 * @return array
-	 */
-	protected function findBySection($pageUid, $type = '', $column = 0) {
-		$constraints = array(
-			'colPos = ' . (int)$column
-		);
+    /**
+     * Find content with 'Show in Section Menus' enabled in a page
+     *
+     * By default only content in colPos=0 will be found. This can be overruled by using $column
+     *
+     * If you set property type to "all", then the 'Show in Section Menus' checkbox is not considered
+     * and all content elements are selected.
+     *
+     * If the property $type is 'header' then only content elements with a visible header layout
+     * (and a non-empty 'header' field!) is selected.
+     * In other words, if the header layout of an element is set to 'Hidden' then the page will not appear in the menu.
+     *
+     * @param int $pageUid The page uid
+     * @param string $type Search method
+     * @param int $column Restrict content by the column number
+     * @return array
+     */
+    protected function findBySection($pageUid, $type = '', $column = 0)
+    {
+        $constraints = array(
+            'colPos = ' . (int)$column
+        );
 
-		switch ($type) {
-			case 'all':
-				break;
-			case 'header':
-				$constraints[] = 'sectionIndex = 1';
-				$constraints[] = 'header <> \'\'';
-				$constraints[] = 'header_layout <> 100';
-				break;
-			default:
-				$constraints[] = 'sectionIndex = 1';
-		}
+        switch ($type) {
+            case 'all':
+                break;
+            case 'header':
+                $constraints[] = 'sectionIndex = 1';
+                $constraints[] = 'header <> \'\'';
+                $constraints[] = 'header_layout <> 100';
+                break;
+            default:
+                $constraints[] = 'sectionIndex = 1';
+        }
 
-		$whereStatement = implode(' AND ', $constraints);
+        $whereStatement = implode(' AND ', $constraints);
 
-		$contentElements = $this->getTypoScriptFrontendController()->cObj->getRecords('tt_content', [
-			'where' => $whereStatement,
-			'orderBy' => 'sorting',
-			'languageField = sys_language_uid',
-			'pidInList' => (int)$pageUid
-		]);
+        $contentElements = $this->getTypoScriptFrontendController()->cObj->getRecords('tt_content', [
+            'where' => $whereStatement,
+            'orderBy' => 'sorting',
+            'languageField = sys_language_uid',
+            'pidInList' => (int)$pageUid
+        ]);
 
-		return $contentElements;
-	}
+        return $contentElements;
+    }
 }

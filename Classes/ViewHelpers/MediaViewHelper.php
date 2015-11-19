@@ -104,11 +104,11 @@ class MediaViewHelper extends AbstractTagBasedViewHelper {
 	 * @return string Rendered img tag
 	 */
 	protected function renderImage(FileInterface $image, $width, $height) {
-		$crop = $image instanceof FileReference ? $image->getProperty('crop') : null;
+		//$crop = $image instanceof FileReference ? $image->getProperty('crop') : null;
 		$processingInstructions = array(
 			'width' => $width,
 			'height' => $height,
-			'crop' => $crop,
+			//'crop' => $crop,
 		);
 		$imageService = $this->getImageService();
 		$processedImage = $imageService->applyProcessingInstructions($image, $processingInstructions);

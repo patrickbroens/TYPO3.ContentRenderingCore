@@ -53,48 +53,50 @@ use PatrickBroens\ContentRenderingCore\ContentObject\DataProcessorInterface;
  *
  * Multi line cells are taken into account.
  */
-class CommaSeparatedValueProcessor implements DataProcessorInterface {
-	/**
-	 * Process CSV field data to split into a multi dimensional array
-	 *
-	 * @param ContentObjectRenderer $cObj The data of the content element or page
-	 * @param array $contentObjectConfiguration The configuration of Content Object
-	 * @param array $processorConfiguration The configuration of this processor
-	 * @param array $processedData Key/value store of processed data (e.g. to be passed to a Fluid View)
-	 * @return array the processed data as key/value store
-	 */
-	public function process(ContentObjectRenderer $cObj, array $contentObjectConfiguration, array $processorConfiguration, array $processedData) {
-		if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
-			return $processedData;
-		}
+class CommaSeparatedValueProcessor implements DataProcessorInterface
+{
+    /**
+     * Process CSV field data to split into a multi dimensional array
+     *
+     * @param ContentObjectRenderer $cObj The data of the content element or page
+     * @param array $contentObjectConfiguration The configuration of Content Object
+     * @param array $processorConfiguration The configuration of this processor
+     * @param array $processedData Key/value store of processed data (e.g. to be passed to a Fluid View)
+     * @return array the processed data as key/value store
+     */
+    public function process(ContentObjectRenderer $cObj, array $contentObjectConfiguration, array $processorConfiguration, array $processedData)
+    {
+        if (isset($processorConfiguration['if.']) && !$cObj->checkIf($processorConfiguration['if.'])) {
+            return $processedData;
+        }
 
-		// The field name to process
-		$fieldName = $cObj->stdWrapValue('fieldName', $processorConfiguration);
-		if (empty($fieldName)) {
-			return $processedData;
-		}
+        // The field name to process
+        $fieldName = $cObj->stdWrapValue('fieldName', $processorConfiguration);
+        if (empty($fieldName)) {
+            return $processedData;
+        }
 
-		$originalValue = $cObj->data[$fieldName];
+        $originalValue = $cObj->data[$fieldName];
 
-		// Set the target variable
-		$targetVariableName = $cObj->stdWrapValue('as', $processorConfiguration, $fieldName);
+        // Set the target variable
+        $targetVariableName = $cObj->stdWrapValue('as', $processorConfiguration, $fieldName);
 
-		// Set the maximum amount of columns
-		$maximumColumns = $cObj->stdWrapValue('maximumColumns', $processorConfiguration, 0);
+        // Set the maximum amount of columns
+        $maximumColumns = $cObj->stdWrapValue('maximumColumns', $processorConfiguration, 0);
 
-		// Set the field delimiter which is "," by default
-		$fieldDelimiter = $cObj->stdWrapValue('fieldDelimiter', $processorConfiguration, ',');
+        // Set the field delimiter which is "," by default
+        $fieldDelimiter = $cObj->stdWrapValue('fieldDelimiter', $processorConfiguration, ',');
 
-		// Set the field enclosure which is " by default
-		$fieldEnclosure = $cObj->stdWrapValue('fieldEnclosure', $processorConfiguration, '"');
+        // Set the field enclosure which is " by default
+        $fieldEnclosure = $cObj->stdWrapValue('fieldEnclosure', $processorConfiguration, '"');
 
-		$processedData[$targetVariableName] = CsvUtility::csvToArray(
-			$originalValue,
-			$fieldDelimiter,
-			$fieldEnclosure,
-			(int)$maximumColumns
-		);
+        $processedData[$targetVariableName] = CsvUtility::csvToArray(
+            $originalValue,
+            $fieldDelimiter,
+            $fieldEnclosure,
+            (int)$maximumColumns
+        );
 
-		return $processedData;
-	}
+        return $processedData;
+    }
 }
