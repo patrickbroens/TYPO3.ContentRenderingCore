@@ -17,6 +17,7 @@ namespace PatrickBroens\ContentRenderingCore\Xclass;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use PatrickBroens\ContentRenderingCore\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * Contains FLUIDTEMPLATE class object
@@ -143,5 +144,29 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
         $variables['data'] = $this->cObj->data;
         $variables['current'] = $this->cObj->data[$this->cObj->currentValKey];
         return $variables;
+    }
+
+    /**
+     * Applies stdWrap on Fluid path definitions
+     *
+     * @param array $paths
+     *
+     * @return array
+     */
+    protected function applyStandardWrapToFluidPaths(array $paths)
+    {
+        $finalPaths = array();
+        foreach ($paths as $key => $path) {
+            if (StringUtility::isLastPartOfString($key, '.')) {
+                if (isset($paths[substr($key, 0, -1)])) {
+                    continue;
+                }
+                $path = $this->cObj->stdWrap('', $path);
+            } elseif (isset($paths[$key . '.'])) {
+                $path = $this->cObj->stdWrap($path, $paths[$key . '.']);
+            }
+            $finalPaths[$key] = GeneralUtility::getFileAbsFileName($path);
+        }
+        return $finalPaths;
     }
 }
