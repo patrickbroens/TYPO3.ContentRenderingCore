@@ -5,9 +5,9 @@
 ---
 conf.py:
   copyright: 1997-2015
-  project: Frontend
-  version: 7
-  release: 7
+  project: content_rendering_core
+  version: 1.0.5
+  release: 6
   latex_elements:
     papersize: a4paper
     pointsize: 10pt
