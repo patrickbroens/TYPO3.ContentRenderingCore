@@ -15,7 +15,7 @@
       "homepage": "https://github.com/patrickbroens"
     }
   ],
-  "version": "1.0.5",
+  "version": "2.0.0",
   "require": {
     "typo3/cms-core": "*"
   },
