@@ -5,7 +5,7 @@ defined('TYPO3_MODE') or die();
 $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
 
 // Define TypoScript as content rendering template
-$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'][] = 'content_rendering_core/Configuration/TypoScript/Static/';
+$GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'][] = 'contentrenderingcore/Configuration/TypoScript/Static/';
 
 // Register for hook to show preview of tt_content element of CType="textmedia" in page module
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['textmedia'] = \PatrickBroens\ContentRenderingCore\Hooks\TextmediaPreviewRenderer::class;
