@@ -22,7 +22,7 @@ namespace PatrickBroens\ContentRenderingCore\Xclass;
  *                                                                        */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use PatrickBroens\ContentRenderingCore\Page\PageRepositoryGetPageOverlayHookInterface;
+use TYPO3\CMS\Frontend\Page\PageRepositoryGetPageOverlayHookInterface;
 
 /**
  * Page functions, a lot of sql/pages-related functions

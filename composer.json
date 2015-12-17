@@ -1,36 +1,36 @@
 {
-	"name": "patrickbroens/content-rendering-core",
-	"type": "typo3-cms-extension",
-	"description": "Backport of fluid_styled_content",
-	"keywords": [
-		"TYPO3",
-		"fluid",
-		"content",
-		"rendering"
-	],
-	"authors": [
-		{
-			"name": "Patrick Broens",
-			"email": "patrick.broens@typo3.org",
-			"homepage": "https://github.com/patrickbroens"
-		}
-	],
-	"version": "1.0.5",
-	"require": {
-		"typo3/cms-core": "*"
-	},
-	"replace": {
-		"content_rendering_core": "self.version",
-		"typo3-ter/content-rendering-core": "self.version"
-	},
-	"autoload": {
-		"psr-4": {
-			"PatrickBroens\\ContentRenderingCore\\": "Classes/"
-		}
-	},
-	"homepage": "https://github.com/patrickbroens/TYPO3.ContentRenderingCore",
-	"license": "GPL-2.0+",
-	"support": {
-		"issues": "https://github.com/patrickbroens/TYPO3.ContentRenderingCore/issues"
-	}
+  "name": "patrickbroens/content-rendering-core",
+  "type": "typo3-cms-extension",
+  "description": "Backport of fluid_styled_content",
+  "keywords": [
+    "TYPO3",
+    "fluid",
+    "content",
+    "rendering"
+  ],
+  "authors": [
+    {
+      "name": "Patrick Broens",
+      "email": "patrick.broens@typo3.org",
+      "homepage": "https://github.com/patrickbroens"
+    }
+  ],
+  "version": "1.0.5",
+  "require": {
+    "typo3/cms-core": "*"
+  },
+  "replace": {
+    "content_rendering_core": "self.version",
+    "typo3-ter/content-rendering-core": "self.version"
+  },
+  "autoload": {
+    "psr-4": {
+      "PatrickBroens\\ContentRenderingCore\\": "Classes/"
+    }
+  },
+  "homepage": "https://github.com/patrickbroens/TYPO3.ContentRenderingCore",
+  "license": "GPL-2.0+",
+  "support": {
+    "issues": "https://github.com/patrickbroens/TYPO3.ContentRenderingCore/issues"
+  }
 }

@@ -8,7 +8,7 @@ $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
 $GLOBALS['TYPO3_CONF_VARS']['FE']['contentRenderingTemplates'][] = 'contentrenderingcore/Configuration/TypoScript/Static/';
 
 // Register for hook to show preview of tt_content element of CType="textmedia" in page module
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['textmedia'] = \PatrickBroens\ContentRenderingCore\Hooks\TextmediaPreviewRenderer::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['tt_content_drawItem']['textmedia'] = \TYPO3\CMS\FluidStyledContent\Hooks\TextmediaPreviewRenderer::class;
 
 // Overload (XCLASS) the FLUIDTEMPLATE content object for use of Data Processors
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\FluidTemplateContentObject'] = array(
@@ -28,6 +28,16 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Page\\PageR
 // Overload (XCLASS) the PageLayoutView to use method getThumbCodeUnlinked
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\Backend\\View\\PageLayoutView'] = array(
     'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\PageLayoutView'
+);
+
+// Overload (XCLASS) the ContentObjectRenderer to use method getRecords
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer'] = array(
+    'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\ContentObjectRenderer'
+);
+
+// Overload (XCLASS) the CommandUtility to use method escapeShellArguments
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Core\\Utility\\CommandUtility'] = array(
+    'className' => 'PatrickBroens\\ContentRenderingCore\\Xclass\\CommandUtility'
 );
 
 // Commalist of file extensions perceived as media files by TYPO3. Lowercase and no spaces between!

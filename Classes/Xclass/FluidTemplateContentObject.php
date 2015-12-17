@@ -14,8 +14,7 @@ namespace PatrickBroens\ContentRenderingCore\Xclass;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use PatrickBroens\ContentRenderingCore\ContentObject\ContentDataProcessor;
+use TYPO3\CMS\Frontend\ContentObject\ContentDataProcessor;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
@@ -31,9 +30,9 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
     protected $contentDataProcessor;
 
     /**
-     * @param ContentObjectRenderer $cObj
+     * @param \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj
      */
-    public function __construct(ContentObjectRenderer $cObj)
+    public function __construct(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj)
     {
         parent::__construct($cObj);
         $this->contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
