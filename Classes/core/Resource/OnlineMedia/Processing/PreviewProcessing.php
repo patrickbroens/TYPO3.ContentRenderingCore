@@ -106,7 +106,7 @@ class PreviewProcessing
             $processedFile->updateWithLocalFile($temporaryFileNameForResizedThumb);
 
             /** @var ProcessedFileRepository $processedFileRepository */
-            $processedFileRepository = GeneralUtility::makeInstance(ProcessedFileRepository::class);
+            $processedFileRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
             $processedFileRepository->add($processedFile);
         }
     }
@@ -134,12 +134,12 @@ class PreviewProcessing
         }
 
         if (file_exists($originalFileName)) {
-            $arguments = CommandUtility::escapeShellArguments([
+            $arguments = CommandUtility::escapeShellArguments(array(
                 'width' => $configuration['width'],
                 'height' => $configuration['height'],
                 'originalFileName' => $originalFileName,
                 'temporaryFileName' => $temporaryFileName,
-            ]);
+            ));
             $parameters = '-sample ' . $arguments['width'] . 'x' . $arguments['height'] . ' '
                 . $arguments['originalFileName'] . '[0] ' . $arguments['temporaryFileName'];
 
@@ -165,7 +165,7 @@ class PreviewProcessing
     {
         if (file_exists($originalFileName)) {
             /** @var $gifBuilder GifBuilder */
-            $gifBuilder = GeneralUtility::makeInstance(GifBuilder::class);
+            $gifBuilder = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Imaging\\GifBuilder');
             $gifBuilder->init();
 
             $options = $this->getConfigurationForImageCropScaleMask($configuration, $gifBuilder);
@@ -236,7 +236,7 @@ class PreviewProcessing
     protected function getProcessor()
     {
         if (!$this->processor) {
-            $this->processor = GeneralUtility::makeInstance(LocalImageProcessor::class);
+            $this->processor = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\Processing\\LocalImageProcessor');
         }
         return $this->processor;
     }
@@ -248,7 +248,7 @@ class PreviewProcessing
     {
         static $graphicalFunctionsObject = null;
         if ($graphicalFunctionsObject === null) {
-            $graphicalFunctionsObject = GeneralUtility::makeInstance(GraphicalFunctions::class);
+            $graphicalFunctionsObject = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Imaging\\GraphicalFunctions');
         }
         return $graphicalFunctionsObject;
     }

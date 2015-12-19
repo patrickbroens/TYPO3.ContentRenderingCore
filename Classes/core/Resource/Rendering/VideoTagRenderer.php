@@ -74,8 +74,7 @@ class VideoTagRenderer implements FileRendererInterface
                 $options['autoplay'] = $autoplay;
             }
         }
-
-        $attributes = [];
+        $attributes = array();
         if ((int)$width > 0) {
             $attributes[] = 'width="' . (int)$width . '"';
         }
@@ -94,7 +93,7 @@ class VideoTagRenderer implements FileRendererInterface
         if (!empty($options['loop'])) {
             $attributes[] = 'loop';
         }
-        foreach (['class', 'dir', 'id', 'lang', 'style', 'title', 'accesskey', 'tabindex', 'onclick'] as $key) {
+        foreach (array('class', 'dir', 'id', 'lang', 'style', 'title', 'accesskey', 'tabindex', 'onclick') as $key) {
             if (!empty($options[$key])) {
                 $attributes[] = $key . '="' . htmlspecialchars($options[$key]) . '"';
             }

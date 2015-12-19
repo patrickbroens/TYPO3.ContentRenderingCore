@@ -138,6 +138,6 @@ class MediaViewHelper extends AbstractTagBasedViewHelper {
 	 * @return ImageService
 	 */
 	protected function getImageService() {
-		return $this->objectManager->get(ImageService::class);
+		return $this->objectManager->get('TYPO3\\CMS\\Extbase\\Service\\ImageService');
 	}
 }

@@ -30,7 +30,7 @@ class OnlineMediaHelperRegistry implements \TYPO3\CMS\Core\SingletonInterface
      */
     public static function getInstance()
     {
-        return GeneralUtility::makeInstance(OnlineMediaHelperRegistry::class);
+        return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\OnlineMedia\\Helpers\\OnlineMediaHelperRegistry');
     }
 
     /**
@@ -56,7 +56,7 @@ class OnlineMediaHelperRegistry implements \TYPO3\CMS\Core\SingletonInterface
      * @param string[] $allowedExtensions
      * @return File|NULL
      */
-    public function transformUrlToFile($url, Folder $targetFolder, $allowedExtensions = [])
+    public function transformUrlToFile($url, Folder $targetFolder, $allowedExtensions = array())
     {
         $registeredHelpers = $GLOBALS['TYPO3_CONF_VARS']['SYS']['fal']['onlineMediaHelpers'];
         foreach ($registeredHelpers as $extension => $className) {

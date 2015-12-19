@@ -88,6 +88,6 @@ class Extractor implements ExtractorInterface
     {
         /** @var OnlineMediaHelperInterface $helper */
         $helper = OnlineMediaHelperRegistry::getInstance()->getOnlineMediaHelper($file);
-        return $helper !== false ? $helper->getMetaData($file) : [];
+        return $helper !== false ? $helper->getMetaData($file) : array();
     }
 }

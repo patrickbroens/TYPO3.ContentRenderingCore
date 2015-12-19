@@ -15,6 +15,8 @@ namespace TYPO3\CMS\FluidStyledContent\ViewHelpers\Menu;
  */
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * A view helper which returns content elements with 'Show in Section Menus' enabled
@@ -46,8 +48,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class SectionViewHelper extends AbstractViewHelper
 {
-    use MenuViewHelperTrait;
-
     /**
      * Initialize ViewHelper arguments
      *
@@ -122,13 +122,93 @@ class SectionViewHelper extends AbstractViewHelper
 
         $whereStatement = implode(' AND ', $constraints);
 
-        $contentElements = $this->getTypoScriptFrontendController()->cObj->getRecords('tt_content', [
+        $contentElements = $this->getTypoScriptFrontendController()->cObj->getRecords('tt_content', array(
             'where' => $whereStatement,
             'orderBy' => 'sorting',
             'languageField = sys_language_uid',
             'pidInList' => (int)$pageUid
-        ]);
+        ));
 
         return $contentElements;
+    }
+
+    /**
+     * Get the constraints for the page based on doktype and field "nav_hide"
+     *
+     * By default the following doktypes are always ignored:
+     * - 6: Backend User Section
+     * - > 200: Folder (254)
+     *          Recycler (255)
+     *
+     * Optional are:
+     * - 199: Menu separator
+     * - nav_hide: Not in menu
+     *
+     * @param bool $includeNotInMenu Should pages which are hidden for menu's be included
+     * @param bool $includeMenuSeparator Should pages of type "Menu separator" be included
+     * @return string
+     */
+    protected function getPageConstraints($includeNotInMenu = false, $includeMenuSeparator = false)
+    {
+        $constraints = array();
+        $constraints[] = 'doktype NOT IN (' . PageRepository::DOKTYPE_BE_USER_SECTION . ',' . PageRepository::DOKTYPE_RECYCLER . ',' . PageRepository::DOKTYPE_SYSFOLDER . ')';
+        if (!$includeNotInMenu) {
+            $constraints[] = 'nav_hide = 0';
+        }
+        if (!$includeMenuSeparator) {
+            $constraints[] = 'doktype != ' . PageRepository::DOKTYPE_SPACER;
+        }
+        return 'AND ' . implode(' AND ', $constraints);
+    }
+
+    /**
+     * Get a filtered list of page UIDs according to initial list
+     * of UIDs and entryLevel parameter.
+     *
+     * @param array $pageUids
+     * @param int|NULL $entryLevel
+     * @return array
+     */
+    protected function getPageUids(array $pageUids, $entryLevel = 0)
+    {
+        $typoScriptFrontendController = $this->getTypoScriptFrontendController();
+        // Remove empty entries from array
+        $pageUids = array_filter($pageUids);
+        // If no pages have been defined, use the current page
+        if (empty($pageUids)) {
+            if ($entryLevel !== null) {
+                if ($entryLevel < 0) {
+                    $entryLevel = count($typoScriptFrontendController->tmpl->rootLine) - 1 + $entryLevel;
+                }
+                $pageUids = array($typoScriptFrontendController->tmpl->rootLine[$entryLevel]['uid']);
+            } else {
+                $pageUids = array($typoScriptFrontendController->id);
+            }
+        }
+        return $pageUids;
+    }
+
+    /**
+     * @param array $variables
+     * @return mixed
+     */
+    protected function renderChildrenWithVariables(array $variables)
+    {
+        foreach ($variables as $name => $value) {
+            $this->templateVariableContainer->add($name, $value);
+        }
+        $output = $this->renderChildren();
+        foreach ($variables as $name => $_) {
+            $this->templateVariableContainer->remove($name);
+        }
+        return $output;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController()
+    {
+        return $GLOBALS['TSFE'];
     }
 }

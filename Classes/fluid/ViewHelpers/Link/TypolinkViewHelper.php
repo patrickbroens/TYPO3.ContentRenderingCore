@@ -113,7 +113,7 @@ class TypolinkViewHelper extends AbstractViewHelper implements CompilableInterfa
 
         if ($parameter) {
             /** @var ContentObjectRenderer $contentObject */
-            $contentObject = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+            $contentObject = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
             $contentObject->start(array(), '');
             $content = $contentObject->stdWrap(
                 $content,
@@ -142,7 +142,7 @@ class TypolinkViewHelper extends AbstractViewHelper implements CompilableInterfa
      */
     protected static function createTypolinkParameterArrayFromArguments($parameter, $target = '', $class = '', $title = '', $additionalParams = '')
     {
-        $typoLinkCodec = GeneralUtility::makeInstance(TypoLinkCodecService::class);
+        $typoLinkCodec = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Service\\TypoLinkCodecService');
         $typolinkConfiguration = $typoLinkCodec->decode($parameter);
         if (empty($typolinkConfiguration)) {
             return $typolinkConfiguration;

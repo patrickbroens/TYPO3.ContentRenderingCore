@@ -113,44 +113,44 @@ class GalleryProcessor implements DataProcessorInterface
      *
      * @var array
      */
-    protected $availableGalleryPositions = [
-        'horizontal' => [
-            'center' => [0, 8],
-            'right' => [1, 9, 17, 25],
-            'left' => [2, 10, 18, 26]
-        ],
-        'vertical' => [
-            'above' => [0, 1, 2],
-            'intext' => [17, 18, 25, 26],
-            'below' => [8, 9, 10]
-        ]
-    ];
+    protected $availableGalleryPositions = array(
+        'horizontal' => array(
+            'center' => array(0, 8),
+            'right' => array(1, 9, 17, 25),
+            'left' => array(2, 10, 18, 26)
+        ),
+        'vertical' => array(
+            'above' => array(0, 1, 2),
+            'intext' => array(17, 18, 25, 26),
+            'below' => array(8, 9, 10)
+        )
+    );
 
     /**
      * Storage for processed data
      *
      * @var array
      */
-    protected $galleryData = [
-        'position' => [
+    protected $galleryData = array(
+        'position' => array(
             'horizontal' => '',
             'vertical' => '',
             'noWrap' => false
-        ],
+        ),
         'width' => 0,
-        'count' => [
+        'count' => array(
             'files' => 0,
             'columns' => 0,
             'rows' => 0,
-        ],
+        ),
         'columnSpacing' => 0,
-        'border' => [
+        'border' => array(
             'enabled' => false,
             'width' => 0,
             'padding' => 0,
-        ],
-        'rows' => []
-    ];
+        ),
+        'rows' => array()
+    );
 
     /**
      * @var int
@@ -207,14 +207,14 @@ class GalleryProcessor implements DataProcessorInterface
      *
      * @var FileInterface[]
      */
-    protected $fileObjects = [];
+    protected $fileObjects = array();
 
     /**
      * The calculated dimensions for each media element
      *
      * @var array
      */
-    protected $mediaDimensions = [];
+    protected $mediaDimensions = array();
 
     /**
      * Process data for a gallery, for instance the CType "textmedia"
@@ -416,10 +416,10 @@ class GalleryProcessor implements DataProcessorInterface
                 $mediaWidth = floor(
                     $this->getCroppedDimensionalProperty($fileObject, 'width') * ($mediaHeight / max($this->getCroppedDimensionalProperty($fileObject, 'height'), 1))
                 );
-                $this->mediaDimensions[$key] = [
+                $this->mediaDimensions[$key] = array(
                     'width' => $mediaWidth,
                     'height' => $mediaHeight
-                ];
+                );
             }
 
             // Recalculate gallery width
@@ -440,10 +440,10 @@ class GalleryProcessor implements DataProcessorInterface
                 $mediaHeight = floor(
                     $this->getCroppedDimensionalProperty($fileObject, 'height') * ($mediaWidth / max($this->getCroppedDimensionalProperty($fileObject, 'width'), 1))
                 );
-                $this->mediaDimensions[$key] = [
+                $this->mediaDimensions[$key] = array(
                     'width' => $mediaWidth,
                     'height' => $mediaHeight
-                ];
+                );
             }
 
             // Recalculate gallery width
@@ -458,10 +458,10 @@ class GalleryProcessor implements DataProcessorInterface
                 $mediaHeight = floor(
                     $this->getCroppedDimensionalProperty($fileObject, 'height') * ($mediaWidth / max($this->getCroppedDimensionalProperty($fileObject, 'width'), 1))
                 );
-                $this->mediaDimensions[$key] = [
+                $this->mediaDimensions[$key] = array(
                     'width' => $mediaWidth,
                     'height' => $mediaHeight
-                ];
+                );
             }
         }
     }
@@ -496,13 +496,13 @@ class GalleryProcessor implements DataProcessorInterface
             for ($column = 1; $column <= $this->galleryData['count']['columns']; $column++) {
                 $fileKey = (($row - 1) * $this->galleryData['count']['columns']) + $column - 1;
 
-                $this->galleryData['rows'][$row]['columns'][$column] = [
+                $this->galleryData['rows'][$row]['columns'][$column] = array(
                     'media' => $this->fileObjects[$fileKey],
-                    'dimensions' => [
+                    'dimensions' => array(
                         'width' => $this->mediaDimensions[$fileKey]['width'],
                         'height' => $this->mediaDimensions[$fileKey]['height']
-                    ]
-                ];
+                    )
+                );
             }
         }
 

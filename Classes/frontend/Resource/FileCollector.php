@@ -280,7 +280,7 @@ class FileCollector implements \Countable
      */
     protected function getLogger()
     {
-        return GeneralUtility::makeInstance(LogManager::class)->getLogger(__CLASS__);
+        return GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Log\\LogManager')->getLogger(__CLASS__);
     }
 
     /**
@@ -289,7 +289,7 @@ class FileCollector implements \Countable
     protected function getResourceFactory()
     {
         if ($this->resourceFactory === null) {
-            $this->resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+            $this->resourceFactory = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ResourceFactory');
         }
         return $this->resourceFactory;
     }
@@ -300,7 +300,7 @@ class FileCollector implements \Countable
     protected function getFileCollectionRepository()
     {
         if ($this->fileCollectionRepository === null) {
-            $this->fileCollectionRepository = GeneralUtility::makeInstance(FileCollectionRepository::class);
+            $this->fileCollectionRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileCollectionRepository');
         }
         return $this->fileCollectionRepository;
     }
@@ -311,7 +311,7 @@ class FileCollector implements \Countable
     protected function getFileRepository()
     {
         if ($this->fileRepository === null) {
-            $this->fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+            $this->fileRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
         }
         return $this->fileRepository;
     }

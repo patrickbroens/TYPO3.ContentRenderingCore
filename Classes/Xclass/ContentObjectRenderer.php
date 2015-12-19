@@ -36,7 +36,7 @@ class ContentObjectRenderer extends \TYPO3\CMS\Frontend\ContentObject\ContentObj
      */
     public function getRecords($tableName, array $queryConfiguration)
     {
-        $records = [];
+        $records = array();
 
         $res = $this->exec_getQuery($tableName, $queryConfiguration);
 

@@ -80,9 +80,9 @@ class ContentTypesToTextMediaUpdate extends AbstractUpdate
         $databaseConnection->exec_UPDATEquery(
             'tt_content',
             'tt_content.CType=' . $databaseConnection->fullQuoteStr('text', 'tt_content'),
-            [
+            array(
                 'CType' => 'textmedia',
-            ]
+            )
         );
 
         // Store last executed query
@@ -124,12 +124,12 @@ class ContentTypesToTextMediaUpdate extends AbstractUpdate
                 . ' OR explicit_allowdeny LIKE ' . $databaseConnection->fullQuoteStr('%' . $databaseConnection->escapeStrForLike('tt_content:CType:image:ALLOW', 'tt_content') . '%', 'tt_content')
                 . ' OR explicit_allowdeny LIKE ' . $databaseConnection->fullQuoteStr('%' . $databaseConnection->escapeStrForLike('tt_content:CType:text:ALLOW', 'tt_content') . '%', 'tt_content')
                 . ') AND explicit_allowdeny NOT LIKE ' . $databaseConnection->fullQuoteStr('%' . $databaseConnection->escapeStrForLike('tt_content:CType:textmedia:ALLOW', 'tt_content') . '%', 'tt_content'),
-            [
+            array(
                 'explicit_allowdeny' => 'CONCAT(explicit_allowdeny,' . $databaseConnection->fullQuoteStr(',tt_content:CType:textmedia:ALLOW', 'tt_content') . ')',
-            ],
-            [
+            ),
+            array(
                 'explicit_allowdeny',
-            ]
+            )
         );
 
         // Store last executed query
@@ -142,12 +142,12 @@ class ContentTypesToTextMediaUpdate extends AbstractUpdate
                 . ' OR explicit_allowdeny LIKE ' . $databaseConnection->fullQuoteStr('%' . $databaseConnection->escapeStrForLike('tt_content:CType:image:DENY', 'tt_content') . '%', 'tt_content')
                 . ' OR explicit_allowdeny LIKE ' . $databaseConnection->fullQuoteStr('%' . $databaseConnection->escapeStrForLike('tt_content:CType:text:DENY', 'tt_content') . '%', 'tt_content')
                 . ') AND explicit_allowdeny NOT LIKE ' . $databaseConnection->fullQuoteStr('%' . $databaseConnection->escapeStrForLike('tt_content:CType:textmedia:DENY', 'tt_content') . '%', 'tt_content'),
-            [
+            array(
                 'explicit_allowdeny' => 'CONCAT(explicit_allowdeny,' . $databaseConnection->fullQuoteStr(',tt_content:CType:textmedia:DENY', 'tt_content') . ')',
-            ],
-            [
+            ),
+            array(
                 'explicit_allowdeny',
-            ]
+            )
         );
 
         // Store last executed query
