@@ -15,6 +15,8 @@ namespace TYPO3\CMS\FluidStyledContent\ViewHelpers\Menu;
  */
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * A view helper which returns recently updated subpages (multiple levels) of the given pages
@@ -37,8 +39,6 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class UpdatedViewHelper extends AbstractViewHelper
 {
-    use MenuViewHelperTrait;
-
     /**
      * Initialize ViewHelper arguments
      *
@@ -93,22 +93,93 @@ class UpdatedViewHelper extends AbstractViewHelper
         if ($excludeNoSearchPages) {
             $constraints .= ' AND no_search = 0';
         }
-
-        if (!in_array($sortField, ['starttime', 'lastUpdated', 'tstamp', 'crdate'])) {
+        if (!in_array($sortField, array('starttime', 'lastUpdated', 'tstamp', 'crdate'))) {
             $sortField = 'SYS_LASTCHANGED';
         }
 
         $minimumTimeStamp = time() - (int)$typoScriptFrontendController->cObj->calc($maximumAge);
         $constraints .= ' AND ' . $sortField . ' >=' . $minimumTimeStamp;
+        $pages = $typoScriptFrontendController->sys_page->getMenuForPages($pageTreeUids, '*', $sortField . ' DESC', $constraints);
+        return $this->renderChildrenWithVariables(array($as => $pages));
+    }
 
-        $pages = $typoScriptFrontendController->sys_page->getMenuForPages(
-            $pageTreeUids,
-            '*',
-            $sortField . ' DESC',
-            $constraints
-        );
-        return $this->renderChildrenWithVariables(array(
-            $as => $pages
-        ));
+    /**
+     * Get the constraints for the page based on doktype and field "nav_hide"
+     *
+     * By default the following doktypes are always ignored:
+     * - 6: Backend User Section
+     * - > 200: Folder (254)
+     *          Recycler (255)
+     *
+     * Optional are:
+     * - 199: Menu separator
+     * - nav_hide: Not in menu
+     *
+     * @param bool $includeNotInMenu Should pages which are hidden for menu's be included
+     * @param bool $includeMenuSeparator Should pages of type "Menu separator" be included
+     * @return string
+     */
+    protected function getPageConstraints($includeNotInMenu = false, $includeMenuSeparator = false)
+    {
+        $constraints = array();
+        $constraints[] = 'doktype NOT IN (' . PageRepository::DOKTYPE_BE_USER_SECTION . ',' . PageRepository::DOKTYPE_RECYCLER . ',' . PageRepository::DOKTYPE_SYSFOLDER . ')';
+        if (!$includeNotInMenu) {
+            $constraints[] = 'nav_hide = 0';
+        }
+        if (!$includeMenuSeparator) {
+            $constraints[] = 'doktype != ' . PageRepository::DOKTYPE_SPACER;
+        }
+        return 'AND ' . implode(' AND ', $constraints);
+    }
+
+    /**
+     * Get a filtered list of page UIDs according to initial list
+     * of UIDs and entryLevel parameter.
+     *
+     * @param array $pageUids
+     * @param int|NULL $entryLevel
+     * @return array
+     */
+    protected function getPageUids(array $pageUids, $entryLevel = 0)
+    {
+        $typoScriptFrontendController = $this->getTypoScriptFrontendController();
+        // Remove empty entries from array
+        $pageUids = array_filter($pageUids);
+        // If no pages have been defined, use the current page
+        if (empty($pageUids)) {
+            if ($entryLevel !== null) {
+                if ($entryLevel < 0) {
+                    $entryLevel = count($typoScriptFrontendController->tmpl->rootLine) - 1 + $entryLevel;
+                }
+                $pageUids = array($typoScriptFrontendController->tmpl->rootLine[$entryLevel]['uid']);
+            } else {
+                $pageUids = array($typoScriptFrontendController->id);
+            }
+        }
+        return $pageUids;
+    }
+
+    /**
+     * @param array $variables
+     * @return mixed
+     */
+    protected function renderChildrenWithVariables(array $variables)
+    {
+        foreach ($variables as $name => $value) {
+            $this->templateVariableContainer->add($name, $value);
+        }
+        $output = $this->renderChildren();
+        foreach ($variables as $name => $_) {
+            $this->templateVariableContainer->remove($name);
+        }
+        return $output;
+    }
+
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController()
+    {
+        return $GLOBALS['TSFE'];
     }
 }

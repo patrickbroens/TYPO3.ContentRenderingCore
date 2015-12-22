@@ -96,7 +96,7 @@ class ClickEnlargeViewHelper extends AbstractViewHelper
     {
         static $typoScriptService;
         if ($typoScriptService === null) {
-            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
+            $typoScriptService = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Service\\TypoScriptService');
         }
         return $typoScriptService;
     }

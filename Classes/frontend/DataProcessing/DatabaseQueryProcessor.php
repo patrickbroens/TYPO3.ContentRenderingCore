@@ -55,7 +55,7 @@ class DatabaseQueryProcessor implements DataProcessorInterface
      */
     public function __construct()
     {
-        $this->contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
+        $this->contentDataProcessor = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentDataProcessor');
     }
 
     /**
@@ -94,7 +94,7 @@ class DatabaseQueryProcessor implements DataProcessorInterface
         $processedRecordVariables = array();
         foreach ($records as $key => $record) {
             /** @var ContentObjectRenderer $recordContentObjectRenderer */
-            $recordContentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+            $recordContentObjectRenderer = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer');
             $recordContentObjectRenderer->start($record, $tableName);
             $processedRecordVariables[$key] = array('data' => $record);
             $processedRecordVariables[$key] = $this->contentDataProcessor->process($recordContentObjectRenderer, $processorConfiguration, $processedRecordVariables[$key]);

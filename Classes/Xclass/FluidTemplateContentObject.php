@@ -35,7 +35,7 @@ class FluidTemplateContentObject extends \TYPO3\CMS\Frontend\ContentObject\Fluid
     public function __construct(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer $cObj)
     {
         parent::__construct($cObj);
-        $this->contentDataProcessor = GeneralUtility::makeInstance(ContentDataProcessor::class);
+        $this->contentDataProcessor = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\ContentObject\\ContentDataProcessor');
     }
 
     /**

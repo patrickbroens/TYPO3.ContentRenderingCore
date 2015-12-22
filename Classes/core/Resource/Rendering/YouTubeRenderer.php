@@ -125,8 +125,7 @@ class YouTubeRenderer implements FileRendererInterface
             $videoId,
             implode('&amp;', $urlParams)
         );
-
-        $attributes = ['allowfullscreen'];
+        $attributes = array('allowfullscreen');
         if ((int)$width > 0) {
             $attributes[] = 'width="' . (int)$width . '"';
         }
@@ -136,7 +135,7 @@ class YouTubeRenderer implements FileRendererInterface
         if (is_object($GLOBALS['TSFE']) && $GLOBALS['TSFE']->config['config']['doctype'] !== 'html5') {
             $attributes[] = 'frameborder="0"';
         }
-        foreach (['class', 'dir', 'id', 'lang', 'style', 'title', 'accesskey', 'tabindex', 'onclick', 'poster', 'preload'] as $key) {
+        foreach (array('class', 'dir', 'id', 'lang', 'style', 'title', 'accesskey', 'tabindex', 'onclick', 'poster', 'preload') as $key) {
             if (!empty($options[$key])) {
                 $attributes[] = $key . '="' . htmlspecialchars($options[$key]) . '"';
             }

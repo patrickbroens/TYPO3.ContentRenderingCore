@@ -74,7 +74,7 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
      */
     protected function getSubpagesForPages(array $pageIds, $fields = '*', $sortField = 'sorting', $additionalWhereClause = '', $checkShortcuts = true, $parentPages = true)
     {
-        $pages = [];
+        $pages = array();
         $relationField = $parentPages ? 'pid' : 'uid';
         $db = $this->getDatabaseConnection();
 
@@ -154,7 +154,7 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
     protected function getDraftUserGroupAccessWhereStatement($databaseResource, $sortField, $addWhere)
     {
         $draftUserGroupAccessWhereStatement = false;
-        $recordArray = [];
+        $recordArray = array();
 
         while ($row = $this->getDatabaseConnection()->sql_fetch_assoc($databaseResource)) {
             $workspaceRow = $this->getWorkspaceVersionOfRecord($this->versioningWorkspaceId, 'pages', $row['uid']);
@@ -193,7 +193,7 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
     protected function addMountPointParameterToPage(array $page)
     {
         if (empty($page)) {
-            return [];
+            return array();
         }
 
         // $page MUST have "uid", "pid", "doktype", "mount_pid", "mount_pid_ol" fields in it
@@ -210,7 +210,7 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
                 $page = $mountPointPage;
                 $page['_MP_PARAM'] = $mountPointInfo['MPvar'];
             } else {
-                $page = [];
+                $page = array();
             }
         }
         return $page;
@@ -226,7 +226,7 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
     protected function checkValidShortcutOfPage(array $page, $additionalWhereClause)
     {
         if (empty($page)) {
-            return [];
+            return array();
         }
 
         $dokType = (int)$page['doktype'];
@@ -264,11 +264,11 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
             );
 
             if (!$count) {
-                $page = [];
+                $page = array();
             }
         } elseif ($dokType === self::DOKTYPE_SHORTCUT) {
             // Neither shortcut target nor mode is set. Remove the page from the menu.
-            $page = [];
+            $page = array();
         }
         return $page;
     }
@@ -299,7 +299,7 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
                 foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_page.php']['getPageOverlay'] as $classRef) {
                     $hookObject = GeneralUtility::getUserObj($classRef);
                     if (!$hookObject instanceof PageRepositoryGetPageOverlayHookInterface) {
-                        throw new \UnexpectedValueException('$hookObject must implement interface ' . PageRepositoryGetPageOverlayHookInterface::class, 1269878881);
+                        throw new \UnexpectedValueException('$hookObject must implement interface TYPO3\\CMS\\Frontend\\Page\\PageRepositoryGetPageOverlayHookInterface', 1269878881);
                     }
                     $hookObject->getPageOverlay_preProcess($origPage, $lUid, $this);
                 }

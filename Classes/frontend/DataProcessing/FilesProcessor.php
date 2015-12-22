@@ -55,7 +55,7 @@ class FilesProcessor implements DataProcessorInterface
 
         // gather data
         /** @var FileCollector $fileCollector */
-        $fileCollector = GeneralUtility::makeInstance(FileCollector::class);
+        $fileCollector = GeneralUtility::makeInstance('TYPO3\\CMS\\Frontend\\Resource\\FileCollector');
 
         // references / relations
         if (!empty($processorConfiguration['references.'])) {
