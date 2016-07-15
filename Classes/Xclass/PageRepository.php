@@ -36,6 +36,27 @@ class PageRepository extends \TYPO3\CMS\Frontend\Page\PageRepository
 {
 
     /**
+     * Returns an array with page rows for subpages of a certain page ID. This is used for menus in the frontend.
+     * If there are mount points in overlay mode the _MP_PARAM field is set to the corret MPvar.
+     *
+     * If the $pageId being input does in itself require MPvars to define a correct
+     * rootline these must be handled externally to this function.
+     *
+     * @param int|int[] $pageId The page id (or array of page ids) for which to fetch subpages (PID)
+     * @param string $fields List of fields to select. Default is "*" = all
+     * @param string $sortField The field to sort by. Default is "sorting
+     * @param string $additionalWhereClause Optional additional where clauses. Like "AND title like '%blabla%'" for instance.
+     * @param bool $checkShortcuts Check if shortcuts exist, checks by default
+     * @return array Array with key/value pairs; keys are page-uid numbers. values are the corresponding page records (with overlayed localized fields, if any)
+     * @see \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::getPageShortcut(), \TYPO3\CMS\Frontend\ContentObject\Menu\AbstractMenuContentObject::makeMenu()
+     * @see \TYPO3\CMS\WizardCrpages\Controller\CreatePagesWizardModuleFunctionController, \TYPO3\CMS\WizardSortpages\View\SortPagesWizardModuleFunction
+     */
+    public function getMenu($pageId, $fields = '*', $sortField = 'sorting', $additionalWhereClause = '', $checkShortcuts = true)
+    {
+        return $this->getSubpagesForPages((array)$pageId, $fields, $sortField, $additionalWhereClause, $checkShortcuts);
+    }
+
+    /**
      * Returns an array with page-rows for pages with uid in $pageIds.
      *
      * This is used for menus. If there are mount points in overlay mode
